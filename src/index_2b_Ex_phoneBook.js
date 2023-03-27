@@ -1,8 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import PhoneBookDB from './Ex2FullStack2c_phoneBookDB'
+import PhoneBook from './Ex2FullStack2b_phoneBook'
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <PhoneBookDB />
+  <PhoneBook />
 )
