@@ -23,9 +23,8 @@ const PhoneBookDB = () => {
     event.preventDefault();
     const personObject = {
       name:newName.replace(/\s+/g," ").trim(), //remove unnnecessary spaces
-      phone:newPhone,
-      show: true
-    }
+      phone:newPhone
+        }
 
     //Check if the new name IS NOT already contained in the lis
       // Ak najde dajaku zhodu, tak nedovoli pridat
@@ -52,36 +51,21 @@ const PhoneBookDB = () => {
     setSearchString(event.target.value);
   }
 
-  const filterPersonsAccordingToString = (containsString) => {
-    return (persons.map((person) => { 
-      const newShow = person.name.toLowerCase().includes(containsString.toLowerCase());
-      const newPerson = {name  : person.name,
-                         phone : person.phone,
-                         show  : newShow};
-      return newPerson;            
-     }))
+  const filterPersonsAccordingToString = (listOfPersons, containsString) => {
+    return (listOfPersons.filter((person) =>  
+      person.name.toLowerCase().includes(containsString.toLowerCase())          
+     ))
   }
 
-  const onSearchSubmit = (event) => {
-    event.preventDefault();
-    setPersons(filterPersonsAccordingToString(searchString));
-  }
 
-  const onSearchReset = () =>{
-    console.log('Search string: ', searchString);
-    const newString = '';
-    setSearchString(newString);
-    console.log('Search string: ', searchString);
-   setPersons(filterPersonsAccordingToString(''));
-    console.log(persons);
-  }
 
-//<!-- <Filter persons={persons} setPersons={setPersons} searchString={searchString} setSearchString={setSearchString}/>
+ 
+  //<!-- <Filter persons={persons} setPersons={setPersons} searchString={searchString} setSearchString={setSearchString}/>
 
   return (
     <div>
       <h2>Phonebook</h2>
-        <Filter searchString={searchString} hanldeSearchStringChange={hanldeSearchStringChange} onSearchSubmit={onSearchSubmit} onSearchReset={onSearchReset}/>
+        <input value={searchString} onChange={hanldeSearchStringChange} />
 
       <h2>Add new</h2>
       <form onSubmit={addPerson}>
@@ -97,7 +81,7 @@ const PhoneBookDB = () => {
       </form>
       <h2>Numbers</h2>
         <ol>
-          {persons.filter(person => person.show).map(person => <li key={person.name}>Name: {person.name}, Phone number: {person.phone}</li>)}
+          {filterPersonsAccordingToString(persons, searchString).map(person => <li key={person.name}>Name: {person.name}, Phone number: {person.phone}</li>)}
         </ol>
     </div>
   )
