@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState } from 'react'
-
+import personService from  '../services/persons'
+import axios from 'axios'
 
 const Submit = ({persons, setPersons}) => {
   const [newName, setNewName] = useState('');
@@ -9,25 +10,39 @@ const Submit = ({persons, setPersons}) => {
   
   const addPerson = (event) => {
     event.preventDefault();
-    const personObject = {
+    const newPerson = {
       name:newName.replace(/\s+/g," ").trim(), //remove unnnecessary spaces
       phone:newPhone
         }
-
+    
+    
     //Check if the new name IS NOT already contained in the lis
       // Ak najde dajaku zhodu, tak nedovoli pridat
-    if (persons.find(person => person.name.toLowerCase() === personObject.name.toLowerCase())){
-      alert(`The name ${personObject.name} is already contained in the phone book`);
-      return;
-    }
-      //the new string is not contained in the phonebook, so we can add it
-    setPersons(persons.concat(personObject));
+    const existingPerson = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
+    if (existingPerson){
+      const confirm = window.confirm(`The name ${newPerson.name} with id ${existingPerson.id} is already contained in the phone book,
+      do you want to replace the old number with the new one  ?`);
+      console.log(confirm);
+     if (confirm === true){
+      const id = existingPerson.id;
 
+        personService.updatePerson(id, newPerson)
+        .then(returnedPerson => 
+              setPersons(persons.map(p => p.id !== id ? p : returnedPerson)))
+            .catch(error => {
+              alert(`This person did not exist afterall`);
+            })
+    }
+  }
+  else{
+    //the new string is not contained in the phonebook, so we can add it 
+     personService.create(newPerson).then(newPerson => setPersons(persons.concat(newPerson)))
+    }
+    //vynulovat vstupne policka
     setNewName('');
     setNewPhone('');
   } 
 
-  
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   }
@@ -36,8 +51,8 @@ const Submit = ({persons, setPersons}) => {
     setNewPhone(event.target.value);
   }
 
-    return(
-      <div>
+  return(
+   <div>
     <h2>Add new</h2>
     <form onSubmit={addPerson}>
         <p>

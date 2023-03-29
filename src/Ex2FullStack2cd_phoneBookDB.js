@@ -3,22 +3,33 @@ import React from 'react';
 import Filter from './components/Filter'
 import Submit from './components/Submit'
 import ListPersons from './components/ListPersons'
+import personService from './services/persons'
 
-import axios from 'axios'
+//import axios from 'axios'
 
 const PhoneBookDB = () => {
   const [persons, setPersons] = useState([]);
   const [searchString, setSearchString] = useState('');
 
   useEffect(()=> {
-    axios.get('http://localhost:3001/persons')
-    .then(response => {
-      console.log('Promise fullfilled')
-      console.log(response.data)
-      setPersons(response.data)
+    personService.getAll()
+    .then(initialPersons => {
+      setPersons(initialPersons)
     })
 },[])
 
+
+const deletePerson = (id) => {
+  const personToDelete = persons.find(p => p.id === id);
+  if (window.confirm( `Do you really want to delete ${personToDelete.name} from phoneBook?`) === true)
+    {personService.deleteFromDB(id)
+      .catch(error => {
+        alert(`The person ${personToDelete.name} does not exist in the phoneBook `)
+      })
+    //v kazdom pripade zo zobrzeneho zonamu vymazeme dotycnu osobu
+    setPersons(persons.filter(p => p.id !== id))
+  }
+}
 
   const hanldeSearchStringChange = (event) => {
     setSearchString(event.target.value);
@@ -35,7 +46,7 @@ const PhoneBookDB = () => {
       <h2>Phonebook</h2>
         <Filter searchString={searchString} hanldeSearchStringChange={hanldeSearchStringChange} />
         <Submit persons={persons} setPersons={setPersons} />
-        <ListPersons listOfPersons={filterPersonsAccordingToString()} />
+        <ListPersons listOfPersons={filterPersonsAccordingToString()} deletePerson = {deletePerson} />
     </div>
   )
 }
