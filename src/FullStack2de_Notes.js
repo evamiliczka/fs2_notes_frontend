@@ -1,12 +1,31 @@
 import { useState, useEffect } from 'react';
 import React from 'react';
 import Note from './components/Note';
+import Notification from './components/Notification'
 import noteService from './services/notes.js'
+import './notes.css'
+
+
+const Footer = () => {
+  const footerStyle = {
+    color: 'green',
+    fontStyle: 'italic',
+    fontSize: 16
+  }
+  return (
+    <div style={footerStyle}>
+      <br />
+      <em>Note app, Department of Computer Science, University of Helsinki 2022</em>
+    </div>
+  )
+}
+
 
 const FullStack2d = () => {
   const [notes, setNotes] = useState([]);
   const [newNote, setNewNote] = useState('a new note');
   const [showAll, setShowAll] = useState(true);
+  const [errorMessage, setErrorMessage] = useState (null);
 
   useEffect(() => {
     noteService
@@ -50,7 +69,8 @@ const FullStack2d = () => {
         setNotes(notes.map(n => n.id !== id ? n : returndedNote))
       })
       .catch(error => {
-        alert(`the note ${note.content} was deleted from the server`);
+        setErrorMessage(`The note "${note.content}" was already deleted from the server`);
+        setTimeout(() => setErrorMessage(null), 5000)
         setNotes(notes.filter(n => n.id !== id))
       })
   }
@@ -62,6 +82,7 @@ const FullStack2d = () => {
   return (
     <div>
       <h1>Notes</h1>
+      <Notification message={errorMessage} />
       <div>
         Now showing: {showAll? 'all':'only important'} <br></br>
         <button onClick = {() => setShowAll(!showAll)}>
@@ -78,6 +99,7 @@ const FullStack2d = () => {
         <button type="submit">Save</button>
         <button type="reset">Reset</button>
       </form>
+      <Footer />
     </div>
   )
 }

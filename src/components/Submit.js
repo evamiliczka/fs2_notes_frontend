@@ -1,11 +1,19 @@
 import React from 'react';
 import {useState } from 'react'
 import personService from  '../services/persons'
-import axios from 'axios'
+import ConfirmMessage from './ConfirmMessage';
+//import axios from 'axios'
 
 const Submit = ({persons, setPersons}) => {
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
+  const [message, setMessage] = useState(null);
+
+  //set the desired Message for 5 seconds, then sets it to null to disappear
+  const showMessage = (message) => {
+    setMessage(message);
+    setTimeout(() => setMessage(null), 5000);
+  }
 
   
   const addPerson = (event) => {
@@ -32,11 +40,14 @@ const Submit = ({persons, setPersons}) => {
             .catch(error => {
               alert(`This person did not exist afterall`);
             })
+      showMessage(`Person ${newPerson.name} updated`)
+
     }
   }
   else{
     //the new string is not contained in the phonebook, so we can add it 
-     personService.create(newPerson).then(newPerson => setPersons(persons.concat(newPerson)))
+     personService.create(newPerson).then(newP => setPersons(persons.concat(newP)))
+     showMessage(`Person ${newPerson.name} added`)
     }
     //vynulovat vstupne policka
     setNewName('');
@@ -65,6 +76,7 @@ const Submit = ({persons, setPersons}) => {
           <button type="submit">Add person</button> ;
         </div>
     </form>
+    <ConfirmMessage message={message} />
     </div>
     )
 }

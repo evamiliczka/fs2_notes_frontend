@@ -1,0 +1,24 @@
+h1{
+    color: darkcyan;
+    font-style: italic;
+}
+
+li {
+    color: darkslateblue;
+    padding-top: 3px;
+    font-size: 15px;
+  }
+
+
+
+  .okMessage {
+    color: darkgreen;
+    background: gainsboro;
+    font-size: 20px;
+    border-style: solid;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+

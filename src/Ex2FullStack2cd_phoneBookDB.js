@@ -3,13 +3,15 @@ import React from 'react';
 import Filter from './components/Filter'
 import Submit from './components/Submit'
 import ListPersons from './components/ListPersons'
-import personService from './services/persons'
 
+import personService from './services/persons'
+import './phonebook.css'
 //import axios from 'axios'
 
 const PhoneBookDB = () => {
   const [persons, setPersons] = useState([]);
   const [searchString, setSearchString] = useState('');
+
 
   useEffect(()=> {
     personService.getAll()
@@ -26,7 +28,7 @@ const deletePerson = (id) => {
       .catch(error => {
         alert(`The person ${personToDelete.name} does not exist in the phoneBook `)
       })
-    //v kazdom pripade zo zobrzeneho zonamu vymazeme dotycnu osobu
+    //v kazdom pripade zo zobrazeneho zonamu vymazeme dotycnu osobu
     setPersons(persons.filter(p => p.id !== id))
   }
 }
@@ -45,7 +47,7 @@ const deletePerson = (id) => {
     <div>
       <h2>Phonebook</h2>
         <Filter searchString={searchString} hanldeSearchStringChange={hanldeSearchStringChange} />
-        <Submit persons={persons} setPersons={setPersons} />
+        <Submit persons={persons} setPersons={setPersons}  />
         <ListPersons listOfPersons={filterPersonsAccordingToString()} deletePerson = {deletePerson} />
     </div>
   )
