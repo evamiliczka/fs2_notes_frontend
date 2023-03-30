@@ -11,7 +11,7 @@ const heading = {
     return(
         <div>
             <h1> Helsinky Full Stack Course Part 2</h1>
-            <p> Communicating with the server </p>
+            <p  style={{fontStyle: "italic"}}> "Communicating with the server" </p>
             <h3 style={heading}> 1. Exercises: </h3>
             <Phonebook />
             <br></br>

@@ -28,11 +28,6 @@
   ],
   "persons": [
     {
-      "name": "j j",
-      "phone": "55",
-      "id": 2
-    },
-    {
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
@@ -46,6 +41,11 @@
       "name": "Anna Pretty",
       "phone": "444",
       "id": 6
+    },
+    {
+      "name": "b bbb",
+      "phone": "",
+      "id": 10
     }
   ]
 }
