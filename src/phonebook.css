@@ -9,6 +9,14 @@ li {
     font-size: 15px;
   }
 
+a{
+  color: inherit;
+}
+
+a:hover{
+  color: darkturquoise;
+}
+
   .message{
     background: gainsboro;
     font-size: 20px;
