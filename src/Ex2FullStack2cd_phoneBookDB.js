@@ -36,18 +36,20 @@ const PhoneBookDB = () => {
   const [message, setMessage] = useState(null)//{okText:'   ', errorText: '   ''}); //okMessage=' '  
 
 
-//set the desired Message for 5 seconds, then sets it to null to disappear
-const showMessage = (messageObject) => {
-  setMessage(messageObject);
-  setTimeout(() => setMessage(null), 5000);
-}
-
   useEffect(()=> {
     personService.getAll()
     .then(initialPersons => {
       setPersons(initialPersons)
     })
 },[])
+
+
+//set the desired Message for 5 seconds, then sets it to null to disappear
+const showMessage = (messageObject) => {
+  setMessage(messageObject);
+  setTimeout(() => setMessage(null), 5000);
+}
+
 
 
 const deletePerson = (id) => {

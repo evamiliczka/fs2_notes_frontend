@@ -22,7 +22,7 @@ const Footer = () => {
 
 
 const FullStack2d = () => {
-  const [notes, setNotes] = useState([]);
+  const [notes, setNotes] = useState(null);
   const [newNote, setNewNote] = useState('a new note');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState (null);
@@ -78,30 +78,31 @@ const FullStack2d = () => {
   //stores a list of all the notes to be displayed
   //note.filter returns array of all elements that meet the criterion in the callback function
   const notesToShow = showAll ? notes : notes.filter(note => note.important);
-
-  return (
-    <div>
-      <h1>Notes</h1>
-      <Notification message={errorMessage} />
+  if (!notes) return(null)
+  else
+    return (
       <div>
-        Now showing: {showAll? 'all':'only important'} <br></br>
-        <button onClick = {() => setShowAll(!showAll)}>
-          Show  {showAll?  'only important':'all' }
-        </button>
+        <h1>Notes</h1>
+        <Notification message={errorMessage} />
+        <div>
+          Now showing: {showAll? 'all':'only important'} <br></br>
+          <button onClick = {() => setShowAll(!showAll)}>
+            Show  {showAll?  'only important':'all' }
+          </button>
+        </div>
+        <ul>
+          {notesToShow.map(note => 
+            <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
+          )}
+        </ul>
+        <form onSubmit={addNote} onReset={resetNewValue}>
+          <input value={newNote} onChange={handleNoteChange}/>
+          <button type="submit">Save</button>
+          <button type="reset">Reset</button>
+        </form>
+        <Footer />
       </div>
-      <ul>
-        {notesToShow.map(note => 
-          <Note key={note.id} note={note} toggleImportance={() => toggleImportanceOf(note.id)} />
-        )}
-      </ul>
-      <form onSubmit={addNote} onReset={resetNewValue}>
-        <input value={newNote} onChange={handleNoteChange}/>
-        <button type="submit">Save</button>
-        <button type="reset">Reset</button>
-      </form>
-      <Footer />
-    </div>
-  )
+    )
 }
 
 export default FullStack2d 
