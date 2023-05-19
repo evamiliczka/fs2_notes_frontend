@@ -1,77 +1,57 @@
 import React from 'react';
 import {useState } from 'react'
-import personService from  '../services/persons'
-//import axios from 'axios'
+import personService from '../services/personServices'
 
-const Submit = ({persons, setPersons, message, setMessage, showMessage}) => {
+const Submit = ({persons, setPersons}) => {
   const [newName, setNewName] = useState('');
   const [newPhone, setNewPhone] = useState('');
-
   
-
   
-  const addPerson = (event) => {
-    event.preventDefault();
-    const newPerson = {
-      name:newName.replace(/\s+/g," ").trim(), //remove unnnecessary spaces
-      phone:newPhone
-        }
-    
-    
-    //Check if the new name IS NOT already contained in the lis
-      // Ak najde dajaku zhodu, tak nedovoli pridat
-    const existingPerson = persons.find(person => person.name.toLowerCase() === newPerson.name.toLowerCase());
-    if (existingPerson){
-      const confirm = window.confirm(`The name ${newPerson.name} with id ${existingPerson.id} is already contained in the phone book,
-      do you want to replace the old number with the new one  ?`);
-      console.log(confirm);
-     if (confirm === true){
-      const id = existingPerson.id;
-
-        personService.updatePerson(id, newPerson)
-        .then(returnedPerson => 
-              setPersons(persons.map(p => p.id !== id ? p : returnedPerson)))
-            .catch(error => {
-              showMessage({okText:null, errorText : `The person ${newPerson.name} does not exist in the phoneBook`});
-              setPersons(persons.filter(p => p.id !== id))
-              return;
-            })
-      showMessage({okText : `Person ${newPerson.name} updated`, errorText:null})
-
-    }
-  }
-  else{
-    //the new string is not contained in the phonebook, so we can add it 
-     personService.create(newPerson).then(newP => setPersons(persons.concat(newP)))
-     showMessage({okText: `Person ${newPerson.name} added`, errorText:null})
-    }
-    //vynulovat vstupne policka
-    setNewName('');
-    setNewPhone('');
-  } 
-
-  const handleNameChange = (event) => {
-    setNewName(event.target.value);
+  const handleNameChange = (event) =>{
+    setNewName(event.target.value)
   }
 
   const handlePhoneChange = (event) => {
     setNewPhone(event.target.value);
   }
 
+const addPerson = (event) => {
+  event.preventDefault();
+  const personObject = {
+   // id: persons.length +1,
+    name : newName.replace(/\s+/g," ").trim(), //remove unnnecessary spaces
+    phone: newPhone
+  }
+
+  //Check if the new name IS NOT already contained in the lis
+  // Ak najde dajaku zhodu, tak nedovoli pridat
+  const existingPerson = 
+      persons.find(person => person.name.toLowerCase() === personObject.name.toLowerCase());
+  if (existingPerson){
+    alert(`The person ${personObject.name} already exists in the phonebook`);
+  }
+  else  {
+    personService
+      .create(personObject)
+      .then(returnedPerson => {
+     //   console.log('Person added:', response.data);
+        setPersons(persons.concat(returnedPerson));
+        setNewName('')
+        setNewPhone('')
+      })
+
+  }
+}
+
   return(
    <div>
     <h2>Add new</h2>
     <form onSubmit={addPerson}>
-        <p>
-          Name: <input value={newName} onChange={handleNameChange}/>
-        </p>
-        <p>
-          Phone number: <input value={newPhone} onChange={handlePhoneChange}/>
-        </p>
-        <div>
-          <button type="submit">Add person</button> ;
-        </div>
-    </form>
+        <div>Name: <input value={newName} onChange = {handleNameChange} /></div>
+        <div>Phone number: <input value={newPhone} onChange = {handlePhoneChange} /></div>
+        <button type="submit">Save person</button>
+      </form> 
+      
     </div>
     )
 }

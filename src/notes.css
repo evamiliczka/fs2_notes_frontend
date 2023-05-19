@@ -1,4 +1,4 @@
-h1{
+h1, h2{
     color: green;
     font-style: italic;
 }
@@ -16,7 +16,7 @@ li {
   }
 
   .error {
-    color: rosybrown;
+    color: rgb(219, 28, 28);
     background: lightgrey;
     font-size: 20px;
     border-style: solid;

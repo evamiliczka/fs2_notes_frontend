@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import React from 'react'
+import './phonebook.css'
+
 
 const App = () => {
     const [value, setValue] = useState('')
     const [rates, setRates] = useState({})
     const [currency, setCurrency] = useState(null)
-  
+
     useEffect(() => {
       console.log('effect run, currency is now', currency)
   
@@ -32,6 +34,7 @@ const App = () => {
   
     return (
       <div>
+        <h1>Currency</h1>
         <form onSubmit={onSearch}>
         Please enter currency: <input value={value} onChange={handleChange} />
           <button type="submit">exchange rate</button>
