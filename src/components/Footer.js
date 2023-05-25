@@ -8,9 +8,8 @@ const Footer = () => {
     return (
       <div style={footerStyle}>
         <br />
-        <p>Phonebook app, Eva Miliczka 2023</p>
-
         <p>Note app, Department of Computer Science, University of Helsinki 2023</p>
+        <p>Written by Eva Miliczka</p>
       </div>
     )
   }

@@ -17,7 +17,7 @@
     },
     {
       "content": "a new note",
-      "important": false,
+      "important": true,
       "id": 4
     },
     {
@@ -49,23 +49,11 @@
       "content": "aaa",
       "important": true,
       "id": 11
-    }
-  ],
-  "persons": [
-    {
-      "name": "Mary Poppendieck",
-      "phone": "39-23-6423122",
-      "id": 4
     },
     {
-      "name": "John Nash",
-      "phone": "333",
-      "id": 5
-    },
-    {
-      "name": "Anna Pretty",
-      "phone": "444",
-      "id": 6
+      "content": "ddd",
+      "important": true,
+      "id": 12
     }
   ]
 }
