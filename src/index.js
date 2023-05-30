@@ -9,12 +9,13 @@ import Footer from './components/Footer'
 
 
 
-    ReactDOM.createRoot(document.getElementById('root')).render(
-      <div>   
-         <App /> 
-         <Footer />
-      </div>
-    )
+    ReactDOM.createRoot(
+        document.getElementById('root')).render(
+<div>      
+      <App /> 
+      <br></br>
+      <Footer />
+</div>    )
     
 
 
